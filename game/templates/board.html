@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Connect 4
+{% endblock %}
+
+{% block styles %}
+    <link rel='stylesheet' type='text/css' media='screen' href="{% static 'css/board.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="game">
+    <div id="selector-column">
+        {% for column in columns %}
+            <div class="selector-arrow">
+                <div class="arrow arrow-{{forloop.counter0}}">
+                </div>
+                <div class="token token-{{forloop.counter0}}">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="board">
+        {% for line in start_board %}
+            <div class="board-row">
+                {% for cell in line %}
+                    <div class="row-{{forloop.parentloop.counter0}} col-{{forloop.counter0}} board-cell color-{{cell}}">
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/board.js' %}"></script>
+{% endblock %}

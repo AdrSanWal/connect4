@@ -1,0 +1,106 @@
+/*---------------------------------- Board ----------------------------------*/
+
+#game {
+  width: var(--board-width);
+}
+
+#board {
+  width: 100%;
+  height: 100%;
+  background-color: blue;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  justify-content: space-around;
+  mix-blend-mode: hard-light;
+  border: solid 1px black;
+}
+
+.board-row {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.board-cell {
+  border-radius: 50%;
+  border: solid 1px black;
+  background-color: grey;
+  width: calc(var(--board-width) * 0.07);
+  height: calc(var(--board-width) * 0.07);
+  margin: 3px;
+  z-index: 3;
+}
+
+.board-row:first-child {
+  margin-top: 6px;
+}
+
+.board-row:last-child {
+  margin-bottom: 6px;
+}
+
+/*---------------------------------- Arrows ----------------------------------*/
+
+#selector-column {
+
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  height: 30px;
+  z-index: 1;
+}
+
+.selector-arrow {
+  position: relative;
+  width: 100%;
+}
+
+.selector-arrow:hover {
+  cursor: pointer;
+}
+
+.selector-arrow:hover .arrow {
+  border-top: 10px solid rgb(156, 155, 155);
+  transform: translateY(-10px)
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 25%;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid rgb(207, 205, 205);
+  border-radius: 50px;
+  margin: 10px;
+  z-index: 2;
+}
+
+.selector-arrow:hover .token {
+  opacity: 1;
+}
+
+/*---------------------------------- Tokens ----------------------------------*/
+
+.color-1 {
+  background-color: red;
+}
+
+.color-2 {
+  background-color: yellow;
+}
+
+.token {
+  position: absolute;
+  top: 55%;
+  left: 25%;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: red;
+  width: calc(var(--board-width) * 0.07);
+  height: calc(var(--board-width) * 0.07);
+  opacity: 0;
+}
