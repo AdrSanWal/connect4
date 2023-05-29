@@ -1,13 +1,25 @@
-const arrows = document.getElementsByClassName('arrow')
+function getOffset(el) {
+  const rect = el.getBoundingClientRect();
+  return {
+    // left: rect.left + window.scrollX,
+    top: rect.top + window.scrollY
+  };
+}
 
-for (arrow of arrows) {
-  arrow.addEventListener('click', (e) => {
-    colNumber = e.target.getAttribute('class').split('-')[1]
-    const columnCells = document.getElementsByClassName(`col-${colNumber}`)
-    for (col of columnCells) {
-      console.log(col)
+const columnSelectors = document.getElementsByClassName('selector-arrow')
 
-    }
+for (const columnSelector of columnSelectors) {
+  columnSelector.addEventListener('click', (e) => {
+    colNumber = e.target.getAttribute('id').split('-')[1]
+
+    const token = document.getElementById(`token-${colNumber}`)
+    const tokenInitialPosition = getOffset(token).top
+    const row = document.getElementsByClassName(`col-${colNumber} color-0`)
+    const tokenFinalPosition = getOffset(row[row.length - 1]).top
+    console.log(tokenFinalPosition - tokenInitialPosition)
+
+    token.style.transform = `translateY(${tokenFinalPosition - tokenInitialPosition}px)`
+
   })
 }
 // for (col of columnCells) {
