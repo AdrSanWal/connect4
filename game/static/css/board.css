@@ -51,6 +51,8 @@
 
 .selector-arrow {
   position: relative;
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 
@@ -67,7 +69,6 @@
   width: 0;
   height: 0;
   position: absolute;
-  left: 25%;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 10px solid rgb(194, 193, 193);

@@ -13,20 +13,27 @@ const dropToken = (e, col) => {
   const token = e.querySelector('.token')
   const clone = token.cloneNode(true)
   const tokenInitialPosition = getOffset(token).top
-  const row = document.querySelectorAll(`.col-${col}.color-0`)
+  const emptyCells = document.querySelectorAll(`.col-${col}.color-0`)
 
   token.addEventListener("transitionend", (e) => {
-    const row = document.querySelectorAll(`.col-${col}.color-0`)
-    rowElement = row[row.length - 1]
+    const emptyCells = document.querySelectorAll(`.col-${col}.color-0`)
+    rowElement = emptyCells[emptyCells.length - 1]
     rowElement.classList.replace('color-0','color-1');
+    row = rowElement.className.split(' ')[0].split('-')[1]
     // TODO: enviar columna elegida
-    updateBoard(col)
+    updateBoard(col, row)
+    // TODO: detect if there is a winer
+    if (isWin()) {
+      console.log('winner')
+    } else {
+      console.log('not yet')
+    }
     const selector = token.parentNode
     token.remove()
     selector.appendChild(clone);
   })
 
-  const tokenFinalPosition = getOffset(row[row.length - 1]).top
+  const tokenFinalPosition = getOffset(emptyCells[emptyCells.length - 1]).top
   const distance = tokenFinalPosition - tokenInitialPosition
 
     token.style.transform = `translateY(${distance}px)`
@@ -50,11 +57,7 @@ const startGame = (e) => {
   modal.style.display = 'none'
 }
 
-const updateBoard = (col) => {
-  // const csrfToken = Cookies.get('csrftoken')
-  // console.log(csrfToken)
-
-
+const updateBoard = (col, row) => {
 
   fetch('http://localhost:8000', {
     method: 'POST',
@@ -63,7 +66,11 @@ const updateBoard = (col) => {
         'Content-Type': 'application/json',
 
     },
-    body: JSON.stringify({'turn': turn++, "col": col})
+    body: JSON.stringify({'turn': turn++, "col": col, 'row': row})
 })
+
+}
+
+const isWin = () => {
 
 }
