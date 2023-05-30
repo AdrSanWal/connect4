@@ -1,5 +1,8 @@
 :root {
   --board-width: max(60vw, 400px);
+  --token-color-user: red;
+  --token-color-cpu: yellow;
+  --board-color: blue;
 }
 
 body {
