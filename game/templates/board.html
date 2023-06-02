@@ -21,13 +21,13 @@
                 <p class="settings-subtitle">Start player</p>
                 <div class="settings-radio">
                     <label for="player">Player</label>
-                    <input type="radio" id="player" name="start" value="p" checked>
+                    <input type="radio" id="player" name="start" value='user' checked>
                     <label for="cpu">CPU</label>
-                    <input type="radio" id="cpu" name="start" value="c">
+                    <input type="radio" id="cpu" name="start" value='cpu'>
                 </div>
             </div>
             <div class="settings-element">
-                <p class="settings-subtitle">Token color</p>
+                <p class="settings-subtitle">Player color</p>
                 <div class="settings-radio">
                     <label for="red">Red</label>
                     <input type="radio" id="red" name="color" value="r" checked>
@@ -36,30 +36,31 @@
                 </div>
             </div>
             <div class="settings-element">
-                <button id="settings-btn" type="submit" onclick="startGame(this)">Start</button>
+                <button id="settings-btn">Start</button>
             </div>
         </div>
     </div>
 </div>
 
 <!--Game-->
+<p>{{winner}}</p>
 <div id="game">
     <div id="selector-column">
         {% csrf_token %}
         {% for column in columns|rangefilter %}
-            <div class="selector-arrow" onclick="dropToken(this, '{{forloop.counter0}}')">
-                <div class="arrow arrow-{{forloop.counter0}}">
+            <div class="selector-arrow" onclick="dropToken('{{column}}')">
+                <div class="arrow arrow-{{column}}">
                 </div>
-                <div id="token-{{forloop.counter0}}" class="token">
+                <div id="token-{{column}}" class="token">
                 </div>
             </div>
         {% endfor %}
     </div>
     <div id="board">
-        {% for line in rows|rangefilter %}
+        {% for row in rows|rangefilter %}
             <div class="board-row">
-                {% for cell in columns|rangefilter %}
-                    <div class="row-{{forloop.parentloop.counter0}} col-{{forloop.counter0}} board-cell color-0">
+                {% for column in columns|rangefilter %}
+                    <div class="row-{{row}} col-{{column}} board-cell color-0">
                     </div>
                 {% endfor %}
             </div>
@@ -69,5 +70,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'js/board.js' %}"></script>
+    <script src="{% static 'js/player.js' %}"></script>
+    <script src="{% static 'js/token.js' %}"></script>
+    <script src="{% static 'js/game.js' %}"></script>
 {% endblock %}

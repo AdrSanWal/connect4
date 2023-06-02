@@ -51,6 +51,8 @@
 
 .selector-arrow {
   position: relative;
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 
@@ -67,7 +69,6 @@
   width: 0;
   height: 0;
   position: absolute;
-  left: 25%;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 10px solid rgb(194, 193, 193);
@@ -77,12 +78,20 @@
 
 /*---------------------------------- Tokens ----------------------------------*/
 
-.color-1 {
-  background-color: var(--token-color-user);
+/* .color-1 {
+  background-color: var(--token-color-1);
 }
 
 .color-2 {
-  background-color: var(--token-color-cpu);
+  background-color: var(--token-color-2);
+} */
+
+.color-red {
+  background-color: var(--token-color-red);
+}
+
+.color-yellow {
+  background-color: var(--token-color-yellow);
 }
 
 .token {
@@ -91,7 +100,7 @@
   left: 25%;
   overflow: hidden;
   border-radius: 50%;
-  background-color: var(--token-color-user);
+  background-color: var(--token-color-active);
   width: calc(var(--board-width) * 0.07);
   height: calc(var(--board-width) * 0.07);
   visibility: hidden;

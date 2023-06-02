@@ -1,35 +1,48 @@
 import json
 
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
+from .utils import Game
 from core.models import Gameplay
 
 
-@csrf_exempt
-def start_game(request):
-    rows = 6
-    columns = 7
+game = Game()
 
+
+@csrf_exempt
+def start_game(request, move=None):
     if request.method == 'GET':
-        game = Gameplay()
-        game.save()
-        request.session['game_id'] = game.pk
+        # restart board
+
+        # TODO: uncomment
+        # # delete all rows without winnwer
+        # Gameplay.objects.filter(winner='').delete()
+        gameplay = Gameplay()
+        gameplay.save()
+        request.session['game_id'] = gameplay.pk
 
     if request.method == 'POST':
         data = json.loads(request.body)
+        game.player = int(data['playerId'])
+        match game.player:
+            case 1:  # cpu
+                move = game.make_move()
+                game.add_token(*move)
+                return JsonResponse({'move': move, 'winner': game.winner})
 
-        game_info = {f"ai_turn_{data['turn']}": data['col']}
-        game = Gameplay.objects.filter(pk=request.session['game_id']).update(**game_info)
+            case 2:  # user
+                column = int(data['col'])
+                # info = {f"ai_turn_{data['turn']}": column}
+                # gameplay = Gameplay.objects.filter(pk=request.session['game_id']).update(**info)
+                move = game.make_move(column)
+                game.add_token(*move)
+                game.show()
+                game.winner = game.is_winning_move()
 
-        # match data['turn']:
-        #     case 1:
-        #         game.ai_turn_1 = data['col']
-        #     case 2:
-        #         game.ai_turn_2 = data['col']
-        #     case 3:
-        #         game.ai_turn_3 = data['col']
-        #     case 4:
-        #         game.ai_turn_4 = data['col']
+                print(move, game.winner)
+                return JsonResponse({'move': move, 'winner': game.winner})
 
-    return render(request, 'board.html', context={'rows': rows, 'columns': columns})
+    return render(request, 'board.html', context={'rows': game.ROWS,
+                                                  'columns': game.COLUMNS})
