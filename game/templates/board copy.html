@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="settings-element">
-                <button id="settings-btn">Start</button>
+                <button id="settings-btn" type="submit" onclick="startGame()">Start</button>
             </div>
         </div>
     </div>
@@ -48,19 +48,19 @@
     <div id="selector-column">
         {% csrf_token %}
         {% for column in columns|rangefilter %}
-            <div class="selector-arrow" onclick="dropToken('{{column}}')">
-                <div class="arrow arrow-{{column}}">
+            <div class="selector-arrow" onclick="dropToken(this, '{{forloop.counter0}}')">
+                <div class="arrow arrow-{{forloop.counter0}}">
                 </div>
-                <div id="token-{{column}}" class="token">
+                <div id="token-{{forloop.counter0}}" class="token">
                 </div>
             </div>
         {% endfor %}
     </div>
     <div id="board">
-        {% for row in rows|rangefilter %}
+        {% for line in rows|rangefilter %}
             <div class="board-row">
-                {% for column in columns|rangefilter %}
-                    <div class="row-{{row}} col-{{column}} board-cell color-0">
+                {% for cell in columns|rangefilter %}
+                    <div class="row-{{forloop.parentloop.counter0}} col-{{forloop.counter0}} board-cell color-0">
                     </div>
                 {% endfor %}
             </div>
@@ -70,6 +70,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'js/token.js' %}"></script>
-    <script src="{% static 'js/game.js' %}"></script>
+    <script src="{% static 'js/board.js' %}"></script>
 {% endblock %}

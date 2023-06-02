@@ -14,8 +14,6 @@ game = Game()
 @csrf_exempt
 def start_game(request, move=None):
     if request.method == 'GET':
-        # restart board
-
         # TODO: uncomment
         # # delete all rows without winnwer
         # Gameplay.objects.filter(winner='').delete()
@@ -26,23 +24,18 @@ def start_game(request, move=None):
     if request.method == 'POST':
         data = json.loads(request.body)
         game.player = int(data['player'])
-        match game.player:
-            case 1:  # cpu
+        match data['player']:
+            case '1':
                 move = game.make_move()
-                game.add_token(*move)
                 return JsonResponse({'move': move, 'winner': game.winner})
 
-            case 2:  # user
-                column = int(data['col'])
-                # info = {f"ai_turn_{data['turn']}": column}
-                # gameplay = Gameplay.objects.filter(pk=request.session['game_id']).update(**info)
-                move = game.make_move(column)
-                game.add_token(*move)
-                game.show()
+            case '2':
+                info = {f"ai_turn_{data['turn']}": data['col']}
+                gameplay = Gameplay.objects.filter(pk=request.session['game_id']).update(**info)
+                move = game.make_move(data['row'], data['col'])
                 game.winner = game.is_winning_move()
 
-                print(move, game.winner)
-                return JsonResponse({'move': move, 'winner': game.winner})
-
     return render(request, 'board.html', context={'rows': game.ROWS,
-                                                  'columns': game.COLUMNS})
+                                                  'columns': game.COLUMNS,
+                                                  'move': move,
+                                                  'winner': game.winner})

@@ -6,12 +6,11 @@ class Game():
 
     ROWS = 6
     COLUMNS = 7
-    winner = False
 
     def __init__(self):
         self.board = np.zeros((6, 7), int)
         self.kernels = self._detection_kernels()
-        self.player = ''
+        self.player = 2
 
     def _detection_kernels(self):
         horizontal_kernel = np.array([[1, 1, 1, 1]])
@@ -23,25 +22,16 @@ class Game():
     def add_token(self, row, column):
         self.board[int(row)][int(column)] = self.player
 
-    def _last_empty_row(self, column):
-        board_first_zeros = (self.board[::-1] == 0).argmax(axis=0)
-        first_zeros = [5 - i for i in board_first_zeros]
-        return int(first_zeros[column])
-
     def is_winning_move(self):
         for kernel in self.kernels:
             if (convolve2d(self.board == self.player, kernel, mode="valid") == 4).any():
                 return True
         return False
 
-    def make_move(self, column=None):
-        if not column:
+    def make_move(self):
+        if self.player == 1:
             from random import randrange
-            column = randrange(0, 7)
-            row = 5
-        else:
-            row = self._last_empty_row(column)
-        return row, column
+            return randrange(0, 7)
 
     def show(self):
         print(self.board)
