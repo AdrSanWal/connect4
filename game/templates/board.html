@@ -21,9 +21,9 @@
                 <p class="settings-subtitle">Start player</p>
                 <div class="settings-radio">
                     <label for="player">Player</label>
-                    <input type="radio" id="player" name="start" value=2 checked>
+                    <input type="radio" id="player" name="start" value='user' checked>
                     <label for="cpu">CPU</label>
-                    <input type="radio" id="cpu" name="start" value=1>
+                    <input type="radio" id="cpu" name="start" value='cpu'>
                 </div>
             </div>
             <div class="settings-element">
@@ -70,6 +70,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'js/player.js' %}"></script>
     <script src="{% static 'js/token.js' %}"></script>
     <script src="{% static 'js/game.js' %}"></script>
 {% endblock %}

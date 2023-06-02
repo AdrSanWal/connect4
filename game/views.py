@@ -25,7 +25,7 @@ def start_game(request, move=None):
 
     if request.method == 'POST':
         data = json.loads(request.body)
-        game.player = int(data['player'])
+        game.player = int(data['playerId'])
         match game.player:
             case 1:  # cpu
                 move = game.make_move()
