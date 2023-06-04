@@ -32,7 +32,11 @@ class Token {
         selector.appendChild(this.clone);
         this.setTokenInLowestPosition()
         waitWindow()
-        game.changeTurn()
+        if (game.winner) {
+          alert('winner', game.activePlayer.id)
+        } else {
+          game.changeTurn()
+        }
       }
     })
     waitWindow(true)

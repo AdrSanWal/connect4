@@ -20,6 +20,7 @@ class GameSettings {
   constructor() {
     cpu.id = cpuPlayer
     user.id = userPlayer
+    this.winner = false
   }
 
   updateSettings() {
@@ -35,7 +36,7 @@ class GameSettings {
   }
 
   displayGame() {
-    const modal = document.querySelector('.settings-wrapper')
+    const modal = document.querySelector('.modal-wrapper.settings')
     modal.style.display = 'none'
   }
 }
@@ -60,7 +61,7 @@ class Game {
   }
 
   async updateBoard(col=null) {
-    console.log('columna enviada', col)
+
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -78,8 +79,8 @@ class Game {
       const json = await response.json()
       //TODO: check if there is a winner
       console.log('winner', json.winner)
+      this.winner = json.winner
       const [r, c] = json.move
-      console.log('columna recibida', c)
       let token = new Token(c, this.activePlayer)
       token.drop()
 

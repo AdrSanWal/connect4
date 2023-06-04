@@ -12,30 +12,31 @@
 {% endblock %}
 
 {% block content %}
+
 <!--Game Settings-->
-<div class="settings-wrapper">
-    <div class="settings">
-        <div class="settings-content">
-            <h2 id="settings-title">Settings of the game</h2>
-            <div class="settings-element">
-                <p class="settings-subtitle">Start player</p>
-                <div class="settings-radio">
+<div class="modal-wrapper settings">
+    <div class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Settings of the game</h2>
+            <div class="modal-element">
+                <p class="modal-subtitle">Start player</p>
+                <div class="modal-radio">
                     <label for="player">Player</label>
                     <input type="radio" id="player" name="start" value='user' checked>
                     <label for="cpu">CPU</label>
                     <input type="radio" id="cpu" name="start" value='cpu'>
                 </div>
             </div>
-            <div class="settings-element">
-                <p class="settings-subtitle">Player color</p>
-                <div class="settings-radio">
+            <div class="modal-element">
+                <p class="modal-subtitle">Player color</p>
+                <div class="modal-radio">
                     <label for="red">Red</label>
                     <input type="radio" id="red" name="color" value="r" checked>
                     <label for="yellow">Yellow</label>
                     <input type="radio" id="yellow" name="color" value="y">
                 </div>
             </div>
-            <div class="settings-element">
+            <div class="modal-element">
                 <button id="settings-btn">Start</button>
             </div>
         </div>
@@ -67,6 +68,12 @@
         {% endfor %}
     </div>
 </div>
+
+<!--Game Finish-->
+<div>
+
+</div>
+
 {% endblock %}
 
 {% block scripts %}
