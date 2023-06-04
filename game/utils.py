@@ -13,6 +13,9 @@ class Game():
         self.kernels = self._detection_kernels()
         self.player = ''
 
+    def restart_board(self):
+        self.board = np.zeros((6, 7), int)
+
     def _detection_kernels(self):
         horizontal_kernel = np.array([[1, 1, 1, 1]])
         vertical_kernel = np.transpose(horizontal_kernel)
@@ -35,7 +38,7 @@ class Game():
         return False
 
     def make_move(self, column=None):
-        if not column:
+        if column is None:
             from random import randrange
             column = randrange(0, 7)
             row = 5

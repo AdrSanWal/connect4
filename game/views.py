@@ -14,8 +14,9 @@ game = Game()
 @csrf_exempt
 def start_game(request, move=None):
     if request.method == 'GET':
+        print('get')
         # restart board
-
+        game.restart_board()
         # TODO: uncomment
         # # delete all rows without winnwer
         # Gameplay.objects.filter(winner='').delete()
@@ -38,10 +39,9 @@ def start_game(request, move=None):
                 # gameplay = Gameplay.objects.filter(pk=request.session['game_id']).update(**info)
                 move = game.make_move(column)
                 game.add_token(*move)
-                game.show()
                 game.winner = game.is_winning_move()
+                # game.show()
 
-                print(move, game.winner)
                 return JsonResponse({'move': move, 'winner': game.winner})
 
     return render(request, 'board.html', context={'rows': game.ROWS,

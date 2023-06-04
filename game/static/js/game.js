@@ -1,6 +1,6 @@
 const url = 'http://localhost:8000'
-//const tokenVelocity = 0.004
-const tokenVelocity = 0.01
+const tokenVelocity = 0.004
+
 const cpuPlayer = 1
 const userPlayer = 2
 const transparency = document.querySelector('.wait')
@@ -60,7 +60,7 @@ class Game {
   }
 
   async updateBoard(col=null) {
-    console.log('token cayendo')
+    console.log('columna enviada', col)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -77,9 +77,9 @@ class Game {
 
       const json = await response.json()
       //TODO: check if there is a winner
-
+      console.log('winner', json.winner)
       const [r, c] = json.move
-
+      console.log('columna recibida', c)
       let token = new Token(c, this.activePlayer)
       token.drop()
 

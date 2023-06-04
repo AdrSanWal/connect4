@@ -9,7 +9,7 @@ class Token {
   }
 
   getLowestEmptyRow() {
-    const emptyCells = document.querySelectorAll(`.col-${this.tokenColumn}.color-0`)
+    const emptyCells = document.querySelectorAll(`.column-${this.tokenColumn}.color-0`)
     return emptyCells[emptyCells.length - 1]
   }
 
