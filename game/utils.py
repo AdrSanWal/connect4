@@ -11,7 +11,7 @@ class Game():
     def __init__(self):
         self.board = np.zeros((6, 7), int)
         self.kernels = self._detection_kernels()
-        self.player = ''
+        self.player = None
 
     def restart_board(self):
         self.board = np.zeros((6, 7), int)
@@ -41,9 +41,7 @@ class Game():
         if column is None:
             from random import randrange
             column = randrange(0, 7)
-            row = 5
-        else:
-            row = self._last_empty_row(column)
+        row = self._last_empty_row(column)
         return row, column
 
     def show(self):

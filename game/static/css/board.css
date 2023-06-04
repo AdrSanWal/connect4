@@ -78,14 +78,6 @@
 
 /*---------------------------------- Tokens ----------------------------------*/
 
-/* .color-1 {
-  background-color: var(--token-color-1);
-}
-
-.color-2 {
-  background-color: var(--token-color-2);
-} */
-
 .color-red {
   background-color: var(--token-color-red);
 }
@@ -126,6 +118,14 @@
   height: 100%;
   z-index: 9999;
   background-color: grey;
+}
+
+.endgame {
+  display: none;
+  /* align-items: flex-end;
+  bottom: 50; */
+  z-index: 9999;
+  margin-top: 15px;
 }
 
 .modal-element {

@@ -33,7 +33,9 @@ class Token {
         this.setTokenInLowestPosition()
         waitWindow()
         if (game.winner) {
-          alert('winner', game.activePlayer.id)
+          const modal = document.querySelector('.modal.endgame')
+          modal.style.display = 'flex'
+          transparency.style.display = 'flex'
         } else {
           game.changeTurn()
         }

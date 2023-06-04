@@ -31,6 +31,7 @@ def start_game(request, move=None):
             case 1:  # cpu
                 move = game.make_move()
                 game.add_token(*move)
+                game.show()
                 return JsonResponse({'move': move, 'winner': game.winner})
 
             case 2:  # user
@@ -40,7 +41,7 @@ def start_game(request, move=None):
                 move = game.make_move(column)
                 game.add_token(*move)
                 game.winner = game.is_winning_move()
-                # game.show()
+                game.show()
 
                 return JsonResponse({'move': move, 'winner': game.winner})
 
