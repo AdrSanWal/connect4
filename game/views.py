@@ -14,7 +14,6 @@ game = Game()
 @csrf_exempt
 def start_game(request, move=None):
     if request.method == 'GET':
-        print('get')
         # restart board
         game.restart_board()
         # TODO: uncomment
@@ -31,6 +30,7 @@ def start_game(request, move=None):
             case 1:  # cpu
                 move = game.make_move()
                 game.add_token(*move)
+                game.winner = game.is_winning_move()
                 game.show()
                 return JsonResponse({'move': move, 'winner': game.winner})
 
@@ -42,7 +42,6 @@ def start_game(request, move=None):
                 game.add_token(*move)
                 game.winner = game.is_winning_move()
                 game.show()
-
                 return JsonResponse({'move': move, 'winner': game.winner})
 
     return render(request, 'board.html', context={'rows': game.ROWS,

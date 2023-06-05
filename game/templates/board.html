@@ -36,8 +36,29 @@
                     <input type="radio" id="yellow" name="color" value="y">
                 </div>
             </div>
+            <!-- <div class="modal-element">
+                <p class="modal-subtitle">Oponent</p>
+                <div class="modal-radio">
+                    <label for="easy">CPU</label>
+                    <input type="radio" id="easy" name="oponent" value="c" checked>
+                    <label for="hard">IA</label>
+                    <input type="radio" id="hard" name="oponent" value="i">
+                </div>
+            </div> -->
             <div class="modal-element">
-                <button id="settings-btn">Start</button>
+                <p class="modal-subtitle">Token velocity</p>
+                <div class="modal-slider">
+                    <input type="range"
+                           min="6.25"
+                           max="100"
+                           value="20"
+                           class="slider"
+                           step="0.25"
+                           id="tokenVelocity">
+                </div>
+            </div>
+            <div class="modal-element">
+                <button id="settings-btn" class="btn btn-ok">Start</button>
             </div>
         </div>
     </div>
@@ -47,7 +68,6 @@
 <p>{{winner}}</p>
 <div id="game">
     <div id="selector-column">
-        {% csrf_token %}
         {% for column in columns|rangefilter %}
             <div class="selector-arrow" onclick="dropToken('{{column}}')">
                 <div class="arrow arrow-{{column}}">
@@ -72,9 +92,11 @@
 <!--Game Finish-->
     <div class="modal endgame">
         <div class="modal-content">
+            <h1 id="gameWinner"></h1>
             <h2 id="modal-title">Play again</h2>
-            <div class="modal-element">
-                <p>jowdfhdhfodf</p>
+            <div class="modal-element btns">
+                <button onClick="window.location.reload();" class="btn btn-ok">Yes</button>
+                <button id="closeGame" class="btn btn-close">No</button>
             </div>
         </div>
     </div>

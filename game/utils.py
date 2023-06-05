@@ -34,13 +34,17 @@ class Game():
     def is_winning_move(self):
         for kernel in self.kernels:
             if (convolve2d(self.board == self.player, kernel, mode="valid") == 4).any():
-                return True
+                return self.player
         return False
+
+    def _posible_moves(self):
+        first_row = self.board[0]
+        return [i for i, val in enumerate(first_row) if val == 0]
 
     def make_move(self, column=None):
         if column is None:
-            from random import randrange
-            column = randrange(0, 7)
+            from random import choice
+            column = choice(self._posible_moves())
         row = self._last_empty_row(column)
         return row, column
 

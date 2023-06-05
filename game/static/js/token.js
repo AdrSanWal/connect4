@@ -32,7 +32,13 @@ class Token {
         selector.appendChild(this.clone);
         this.setTokenInLowestPosition()
         waitWindow()
+
+        // checks if there's a winner
         if (game.winner) {
+          const winner = document.querySelector('#gameWinner')
+          const winnerText = {1: '¡¡CPU Wins!!', 2: '¡¡You Win!!'}
+          winner.textContent = winnerText[game.winner]
+
           const modal = document.querySelector('.modal.endgame')
           modal.style.display = 'flex'
           transparency.style.display = 'flex'
@@ -43,6 +49,6 @@ class Token {
     })
     waitWindow(true)
     this.token.style.transform = `translateY(${distance}px)`
-    this.token.style.transition = `${tokenVelocity * distance}s`
+    this.token.style.transition = `${settings.tokenVelocity * distance}s`
   }
 }

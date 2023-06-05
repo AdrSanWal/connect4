@@ -65,6 +65,11 @@
   transform: translateY(-10px)
 }
 
+.disabled {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
 .arrow {
   width: 0;
   height: 0;
@@ -151,18 +156,33 @@ margin: 5px;
   font-size: 14px;
 }
 
-.modal-radio {
+.modal-radio, .modal-slider {
   display: flex;
   justify-content: flex-end;
 }
 
-#settings-btn {
+.btn {
   margin: 10px 0px;
-  background-color: var(--board-color);
   color: whitesmoke;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
+  width: 100%;
+}
+
+.btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.btn-ok {
+  background-color: var(--board-color);
+}
+
+.btn-close {
+  background-color: red;
 }
 
 label {

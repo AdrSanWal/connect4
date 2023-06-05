@@ -1,6 +1,4 @@
 const url = 'http://localhost:8000'
-const tokenVelocity = 0.004
-
 const cpuPlayer = 1
 const userPlayer = 2
 const transparency = document.querySelector('.wait')
@@ -26,6 +24,7 @@ class GameSettings {
   updateSettings() {
     this.startsGame = document.querySelector('input[name=start]:checked').value;
     this.colorUser = document.querySelector('input[name=color]:checked').value;
+    this.tokenVelocity = 0.05 / document.querySelector('#tokenVelocity').value; // To invert min/max
 
     if (this.colorUser == 'y') {
       user.color = 'yellow'
@@ -39,6 +38,7 @@ class GameSettings {
     const modal = document.querySelector('.modal-wrapper.settings')
     modal.style.display = 'none'
   }
+
 }
 
 class Game {
@@ -77,15 +77,18 @@ class Game {
       })
 
       const json = await response.json()
-      //TODO: check if there is a winner
-      console.log('winner', json.winner)
+
       this.winner = json.winner
       const [r, c] = json.move
       let token = new Token(c, this.activePlayer)
       token.drop()
 
-      // change player and play turn
-      // this.changeTurn()
+      if (r == 0) {
+
+        // block the column (the column is full)
+        const selectorArrow = document.querySelector(`.arrow-${c}`).parentNode
+        selectorArrow.classList.add('disabled')
+      }
 
     } catch (error) {
       console.log(error)
@@ -109,3 +112,9 @@ settingsBtn.addEventListener('click', () => {
 const dropToken = (column) => {
   game.updateBoard(column)
 }
+
+const closeGame = document.querySelector('#closeGame')
+closeGame.addEventListener('click', () => {
+
+  window.close()  // TODO: It doesn't work because it's the user who has opened the page
+})
