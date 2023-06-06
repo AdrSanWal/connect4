@@ -12,6 +12,7 @@ class Game():
         self.board = np.zeros((6, 7), int)
         self.kernels = self._detection_kernels()
         self.player = None
+        self.ia = False
 
     def restart_board(self):
         self.board = np.zeros((6, 7), int)

@@ -13,6 +13,10 @@ game = Game()
 
 @csrf_exempt
 def start_game(request, move=None):
+    if request.method == 'HEAD':
+        if int(request.GET.get('oponent')):  # if True ia, else cpu
+            game.ia = True
+
     if request.method == 'GET':
         # restart board
         game.restart_board()
@@ -29,20 +33,14 @@ def start_game(request, move=None):
         match game.player:
             case 1:  # cpu
                 move = game.make_move()
-                game.add_token(*move)
-                game.winner = game.is_winning_move()
-                game.show()
-                return JsonResponse({'move': move, 'winner': game.winner})
-
             case 2:  # user
-                column = int(data['col'])
                 # info = {f"ai_turn_{data['turn']}": column}
                 # gameplay = Gameplay.objects.filter(pk=request.session['game_id']).update(**info)
-                move = game.make_move(column)
-                game.add_token(*move)
-                game.winner = game.is_winning_move()
-                game.show()
-                return JsonResponse({'move': move, 'winner': game.winner})
+                move = game.make_move(column=int(data['col']))
+        game.add_token(*move)
+        game.winner = game.is_winning_move()
+
+        return JsonResponse({'move': move, 'winner': game.winner})
 
     return render(request, 'board.html', context={'rows': game.ROWS,
                                                   'columns': game.COLUMNS})
