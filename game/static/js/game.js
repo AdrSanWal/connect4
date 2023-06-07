@@ -21,17 +21,26 @@ class GameSettings {
     this.winner = false
   }
 
-  updateSettings() {
+  async updateSettings() {
     this.startsGame = document.querySelector('input[name=start]:checked').value;
     this.colorUser = document.querySelector('input[name=color]:checked').value;
     this.tokenVelocity = 0.05 / document.querySelector('#tokenVelocity').value; // To invert min/max
+    this.ia = document.querySelector('input[name=oponent]:checked').value;
 
     if (this.colorUser == 'y') {
       user.color = 'yellow'
       cpu.color = 'red'
     }
 
-    this.startsGame == 'user' ? user.gameTurn = true : cpu.gameTurn = true
+    this.startsGame == '2' ? user.gameTurn = true : cpu.gameTurn = true
+
+    const response = await fetch(`${url}?oponent=${this.ia}&starts=${this.startsGame}`, {
+      method: 'HEAD',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      },
+    })
   }
 
   displayGame() {
