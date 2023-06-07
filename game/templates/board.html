@@ -22,9 +22,9 @@
                 <p class="modal-subtitle">Start player</p>
                 <div class="modal-radio">
                     <label for="player">Player</label>
-                    <input type="radio" id="player" name="start" value='user' checked>
+                    <input type="radio" id="player" name="start" value='2' checked>
                     <label for="cpu">CPU</label>
-                    <input type="radio" id="cpu" name="start" value='cpu'>
+                    <input type="radio" id="cpu" name="start" value='1'>
                 </div>
             </div>
             <div class="modal-element">
@@ -65,7 +65,6 @@
 </div>
 
 <!--Game-->
-<p>{{winner}}</p>
 <div id="game">
     <div id="selector-column">
         {% for column in columns|rangefilter %}
@@ -92,8 +91,8 @@
 <!--Game Finish-->
     <div class="modal endgame">
         <div class="modal-content">
-            <h1 id="gameWinner"></h1>
-            <h2 id="modal-title">Play again</h2>
+            <h2 id="gameWinner"></h2>
+            <h3 id="modal-title">Play again</h3>
             <div class="modal-element btns">
                 <button onClick="window.location.reload();" class="btn btn-ok">Yes</button>
                 <button id="closeGame" class="btn btn-close">No</button>

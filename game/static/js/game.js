@@ -32,9 +32,9 @@ class GameSettings {
       cpu.color = 'red'
     }
 
-    this.startsGame == 'user' ? user.gameTurn = true : cpu.gameTurn = true
+    this.startsGame == '2' ? user.gameTurn = true : cpu.gameTurn = true
 
-    const response = await fetch(`${url}?oponent=${this.ia}`, {
+    const response = await fetch(`${url}?oponent=${this.ia}&starts=${this.startsGame}`, {
       method: 'HEAD',
       headers: {
           'Accept': 'application/json',
