@@ -1,9 +1,14 @@
 from django.db import models
 
 
-# Create your models here.
+class GameWinner(models.Model):
+    CHOICES = [(1, 'Computer'), (2, 'Human')]
+    game_winner = models.IntegerField(choices=CHOICES)
+    turns = models.PositiveIntegerField()
+
+
 class Gameplay(models.Model):
-    winner = models.BooleanField()  # Indicates if the player who started the game won
+    winner = models.BooleanField(null=True)  # Indicates if the player who started the game won
 
     ai_turn_1 = models.CharField(max_length=1)
     ai_turn_2 = models.CharField(max_length=2)
@@ -59,7 +64,6 @@ class Gameplay(models.Model):
         """Checks if there's a equal game in bd"""
         filters = {f'ai_turn_{n}': game[f'ai_turn_{n}'] for n in range(1, 43)}
         games = Gameplay.objects.filter(**filters).exclude(id=game['id'])
-        print('games', games)
         if games:
             return True
         return False
@@ -70,7 +74,6 @@ class Gameplay(models.Model):
         Then checks if there is already a saved game with the same movements.
         If it exists, it removes the one that was added. If it doesn't, saves
         a symmetrical game."""
-
         moves = self.__dict__.copy()
         del moves['_state']
         if not self._is_same_game(moves):

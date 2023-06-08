@@ -41,19 +41,50 @@ class PlayerIA(PlayerCPU):
         if there isn't, it calculates if there's a move that the human wins
         with and blocks it.
         If none of the above cases apply, checks previous games for the best move"""
+        # If cpu starts, find 1 in db winner field. If human starts, find 0
+
+        winner_number = 0 if self.game.starts == 2 else 1
         if (forced_movement := self.is_forced_movement()):
             return forced_movement
         else:
             print('turno', self.game.turn)
             # TODO: Logica de la IA
             if self.game.turn == 1:
-                pass
+                from random import choice
+                column = choice([0, 1, 2, 3, 4, 5, 6])
             else:
-                pass
-            # who_has_started = self.game.starts
-            # turn = self.game.turn
-            from random import choice
-            return choice(self.game.posible_moves())
+                human_turn = {f'ai_turn_{self.game.turn - 1}': self.game.last_move}
+                self.game.similar_games = self.game.similar_games.filter(**human_turn)
+                posible_moves = self.game.posible_moves()
+
+                score = {}
+
+                for col in posible_moves:
+                    options = self.game.similar_games.filter(**{f'ai_turn_{self.game.turn}': col})
+                    games_played_in_colum = len(options)
+                    wining_games = ([_.winner for _ in options]).count(winner_number)
+
+                    try:
+                        # print(f'games: {games_played_in_colum}, wins: {wining_games}')
+                        score[col] = wining_games ** 2 / games_played_in_colum
+                    except ZeroDivisionError:
+                        # It is better to play a column that has never been played before,
+                        # than one in which you have lost 80% of the time.
+                        score[col] = 0.2
+
+                print('score', score)
+
+                if max(score.values()) == 0 or len(set(score.values())) == 1:
+                    from random import choice
+                    column = choice(self.game.posible_moves())
+
+                else:
+
+                    column = max(score, key=lambda x: score[x])
+
+            cpu_turn = {f'ai_turn_{self.game.turn}': column}
+            self.game.similar_games = self.game.similar_games.filter(**cpu_turn)
+            return column
 
 
 class Game():
@@ -66,14 +97,18 @@ class Game():
         self.board = np.zeros((6, 7), int)
         self.kernels = self._detection_kernels()
         self.turn = 1
+        self.last_move = None
         self.player = None
         self.computer = None
+        self.similar_games = Gameplay.objects.all().exclude(winner=None)
 
     def restart_board(self):
         self.board = np.zeros((6, 7), int)
         self.turn = 1
+        self.last_move = None
         self.player = None
         self.computer = None
+        self.similar_games = Gameplay.objects.all().exclude(winner=None)
 
     def _detection_kernels(self):
         horizontal_kernel = np.array([[1, 1, 1, 1]])
@@ -90,7 +125,7 @@ class Game():
         first_zeros = [5 - i for i in board_first_zeros]
         return int(first_zeros[column])
 
-    def is_winning_move(self, player=None):
+    def is_winning_game(self, player=None):
         if player is None:
             player = self.player
         for kernel in self.kernels:
@@ -109,7 +144,7 @@ class Game():
         for column in posible_columns:
             row = self._last_empty_row(column)
             self.board[row][column] = player
-            if self.is_winning_move(player):
+            if self.is_winning_game(player):
                 self.board[row][column] = 0  # Return board to original
                 return column
             self.board[row][column] = 0
