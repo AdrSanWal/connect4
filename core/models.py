@@ -1,10 +1,62 @@
-from django.db import models
+from django.db import models, connection
 
 
 class GameWinner(models.Model):
-    CHOICES = [(1, 'Computer'), (2, 'Human')]
+    CHOICES = [(0, 'Draw'), (1, 'Computer'), (2, 'Human')]
     game_winner = models.IntegerField(choices=CHOICES)
     turns = models.PositiveIntegerField()
+
+    def chunker(self, iterable, size):
+        result, subgroup, counter = [], [], 0
+        for element in iterable:
+            if counter < size:
+                subgroup.append(element)
+                counter += 1
+            else:
+                result.append(sum(subgroup) / size)
+                subgroup = [element]
+                counter = 1
+        result.append(sum(subgroup) / counter)
+        return result
+
+    def count_winners_statistics(self):
+        sql_query = """SELECT id, game_winner, count(game_winner) AS total
+                       FROM core_gamewinner
+                       GROUP BY game_winner
+                       """
+        rawquery = GameWinner.objects.raw(sql_query)
+        games = {_.game_winner: _.total for _ in rawquery}
+        return games
+
+    def groups_lenght(self, games):
+        relation = {50: 1, 200: 5, 1000: 20, 5000: 100, 10000: 200}
+        for key in relation:
+            if games <= key:
+                return relation[key]
+        return 1000
+
+    def labels(self, games, chunk_size):
+        chunk_labels = []
+        groups = int(games / chunk_size) + (games % chunk_size > 0)
+        for group in range(groups):
+            if group * chunk_size < (games - chunk_size):
+                if group * chunk_size + 1 == group * chunk_size + chunk_size:
+                    chunk_labels.append(group * chunk_size + 1)
+                else:
+                    chunk_labels.append(f'{group * chunk_size + 1} - {group * chunk_size + chunk_size}')
+            else:
+                if group * chunk_size + 1 == games:
+                    chunk_labels.append(games)
+                else:
+                    chunk_labels.append(f'{group * chunk_size + 1} - {games}')
+        return chunk_labels
+
+    def serie_winners_statistics(self):
+        games = GameWinner.objects.all()
+        groups_length = self.groups_lenght(games.count())
+        winners_history = [game.game_winner for game in games]
+        return self.chunker(winners_history, groups_length), self.labels(len(winners_history),
+                                                                         groups_length)
 
 
 class Gameplay(models.Model):
