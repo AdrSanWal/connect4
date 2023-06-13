@@ -86,23 +86,40 @@
             </div>
         {% endfor %}
     </div>
-</div>
 
-<!--Game Finish-->
-    <div class="modal endgame">
-        <div class="modal-content">
-            <h2 id="gameWinner"></h2>
-            <h3 id="modal-title">Play again</h3>
-            <div class="modal-element btns">
-                <button onClick="window.location.reload();" class="btn btn-ok">Yes</button>
-                <button id="closeGame" class="btn btn-close">No</button>
-            </div>
+    <!--Game Statistics-->
+    <div class="statistics-wrapper">
+        <div id="winner-games" class="statistics">
+            <!-- <p>{{ stats.history }}</p>
+            <p>{{ stats.labels }}</p> -->
+            <canvas id="lineChart"></canvas>
+        </div>
+        <div id="times-winner" class="statistics">
+            <canvas id="areaChart"></canvas>
         </div>
     </div>
+</div>
+
+
+
+<!--Game Finish-->
+<div class="modal endgame">
+    <div class="modal-content">
+        <h2 id="gameWinner"></h2>
+        <h3 id="modal-title">Play again</h3>
+        <div class="modal-element btns">
+            <button onClick="window.location.reload();" class="btn btn-ok">Yes</button>
+            <button id="closeGame" class="btn btn-close">No</button>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
 {% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="{% static 'js/charts.js' %}"></script>
     <script src="{% static 'js/player.js' %}"></script>
     <script src="{% static 'js/token.js' %}"></script>
     <script src="{% static 'js/game.js' %}"></script>

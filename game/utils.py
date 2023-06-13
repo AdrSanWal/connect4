@@ -93,8 +93,17 @@ class Game():
     COLUMNS = 7
     winner = False
 
+    # init_board = np.array([[0, 1, 2, 1, 2, 1],
+    #                        [1, 1, 2, 1, 2, 1],
+    #                        [2, 2, 1, 2, 1, 2],
+    #                        [2, 2, 1, 2, 1, 2],
+    #                        [1, 1, 2, 1, 2, 1],
+    #                        [1, 2, 1, 1, 2, 2],
+    #                        [1, 2, 1, 2, 2, 1]])
+
     def __init__(self):
         self.board = np.zeros((6, 7), int)
+        # self.board = self.init_board
         self.kernels = self._detection_kernels()
         self.turn = 1
         self.last_move = None
@@ -104,6 +113,7 @@ class Game():
 
     def restart_board(self):
         self.board = np.zeros((6, 7), int)
+        # self.board = self.init_board
         self.turn = 1
         self.last_move = None
         self.player = None
@@ -131,6 +141,11 @@ class Game():
         for kernel in self.kernels:
             if (convolve2d(self.board == player, kernel, mode="valid") == 4).any():
                 return self.player
+        return False
+
+    def is_draw(self):
+        if np.any(self.board):  # check if the board is full
+            return True
         return False
 
     def posible_moves(self):

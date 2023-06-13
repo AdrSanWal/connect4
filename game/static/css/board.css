@@ -108,6 +108,40 @@
   visibility: visible;
 }
 
+/*-------------------------------- Statistics --------------------------------*/
+
+.statistics-wrapper {
+  margin-top: 10px;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+#winner-games {
+  display: flex;
+  flex-grow: 3;
+  width: 70%
+}
+
+#times-winner {
+  display: flex;
+  justify-content: center;
+}
+
+canvas {
+  width: 100%;
+
+}
+
+#lineChart {
+  padding: 5px
+}
+
 /*------------------------------ Modal Settings ------------------------------*/
 
 .modal-wrapper {
@@ -130,7 +164,7 @@
   /* align-items: flex-end;
   bottom: 50; */
   z-index: 9999;
-  margin-top: 15px;
+  position: absolute;
 }
 
 .modal-element {

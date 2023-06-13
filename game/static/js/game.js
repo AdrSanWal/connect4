@@ -1,4 +1,3 @@
-const url = 'http://localhost:8000'
 const cpuPlayer = 1
 const userPlayer = 2
 const transparency = document.querySelector('.wait')
@@ -47,7 +46,6 @@ class GameSettings {
     const modal = document.querySelector('.modal-wrapper.settings')
     modal.style.display = 'none'
   }
-
 }
 
 class Game {
@@ -108,12 +106,14 @@ class Game {
 const cpu = new GamePlayer(cpuPlayer, 'yellow')
 const user = new GamePlayer(userPlayer, 'red')
 const settings = new GameSettings()
+const statistics = new GameStatistics()
 const game = new Game()
 
 
 const settingsBtn = document.querySelector('#settings-btn')
 settingsBtn.addEventListener('click', () => {
   settings.updateSettings()
+  statistics.drawCharts(cpu, user)
   settings.displayGame()
   game.playTurn()
 });

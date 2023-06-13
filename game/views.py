@@ -9,6 +9,7 @@ from core.models import Gameplay, GameWinner
 
 
 game = Game()
+stats = {}
 
 
 @csrf_exempt
@@ -21,6 +22,7 @@ def start_game(request, move=None):
         game.starts = int(request.GET.get('starts'))
 
     if request.method == 'GET':
+
         # restart board
         game.restart_board()
         # delete all rows without winnwer
@@ -56,3 +58,11 @@ def start_game(request, move=None):
 
     return render(request, 'board.html', context={'rows': game.ROWS,
                                                   'columns': game.COLUMNS})
+
+
+@csrf_exempt
+def get_stats(request):
+    statistics = GameWinner()
+    stats['winners'] = statistics.count_winners_statistics()
+    stats['history'], stats['labels'] = statistics.serie_winners_statistics()
+    return JsonResponse({'stats': stats})
