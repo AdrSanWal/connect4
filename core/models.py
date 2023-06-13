@@ -43,7 +43,8 @@ class GameWinner(models.Model):
                 if group * chunk_size + 1 == group * chunk_size + chunk_size:
                     chunk_labels.append(group * chunk_size + 1)
                 else:
-                    chunk_labels.append(f'{group * chunk_size + 1} - {group * chunk_size + chunk_size}')
+                    chunk_labels.append(f'{group * chunk_size + 1} - '
+                                        + f'{group * chunk_size + chunk_size}')
             else:
                 if group * chunk_size + 1 == games:
                     chunk_labels.append(games)
