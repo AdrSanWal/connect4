@@ -47,8 +47,6 @@ class PlayerIA(PlayerCPU):
         if (forced_movement := self.is_forced_movement()):
             return forced_movement
         else:
-            print('turno', self.game.turn)
-            # TODO: Logica de la IA
             if self.game.turn == 1:
                 from random import choice
                 column = choice([0, 1, 2, 3, 4, 5, 6])
@@ -71,8 +69,6 @@ class PlayerIA(PlayerCPU):
                         # It is better to play a column that has never been played before,
                         # than one in which you have lost 80% of the time.
                         score[col] = 0.2
-
-                print('score', score)
 
                 if max(score.values()) == 0 or len(set(score.values())) == 1:
                     from random import choice

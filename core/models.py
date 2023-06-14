@@ -1,4 +1,4 @@
-from django.db import models, connection
+from django.db import models
 
 
 class GameWinner(models.Model):
@@ -16,7 +16,10 @@ class GameWinner(models.Model):
                 result.append(sum(subgroup) / size)
                 subgroup = [element]
                 counter = 1
-        result.append(sum(subgroup) / counter)
+        try:
+            result.append(sum(subgroup) / counter)
+        except ZeroDivisionError:  # In the first game, counter will be 0
+            pass
         return result
 
     def count_winners_statistics(self):
@@ -43,7 +46,8 @@ class GameWinner(models.Model):
                 if group * chunk_size + 1 == group * chunk_size + chunk_size:
                     chunk_labels.append(group * chunk_size + 1)
                 else:
-                    chunk_labels.append(f'{group * chunk_size + 1} - {group * chunk_size + chunk_size}')
+                    chunk_labels.append(f'{group * chunk_size + 1} - '
+                                        f'{group * chunk_size + chunk_size}')
             else:
                 if group * chunk_size + 1 == games:
                     chunk_labels.append(games)

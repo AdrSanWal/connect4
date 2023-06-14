@@ -3,7 +3,16 @@ const url = 'http://localhost:8000'
 
 class GameStatistics {
   constructor() {
-    this.getStatistics()
+    this.checkIsFirstGame()
+
+  }
+
+  async checkIsFirstGame() {
+    await this.getStatistics()
+    if (Object.keys(await this.winners).length === 0) {
+      const chartsWrapper = document.querySelector('.statistics-wrapper')
+      chartsWrapper.style.display = 'none'
+    }
   }
 
   async getStatistics() {

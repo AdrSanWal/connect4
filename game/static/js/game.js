@@ -114,6 +114,16 @@ const settingsBtn = document.querySelector('#settings-btn')
 settingsBtn.addEventListener('click', () => {
   settings.updateSettings()
   statistics.drawCharts(cpu, user)
+
+  // if (statistics.winners) {
+  //   statistics.drawCharts(cpu, user)
+  // } else {
+  //   chartsWrapper = document.querySelector('.statistics-wrapper')
+  //   chartsWrapper.style.display = 'none'
+  // }
+
+
+
   settings.displayGame()
   game.playTurn()
 });
