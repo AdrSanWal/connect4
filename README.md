@@ -2,6 +2,8 @@
 
 Connect 4 game developed in django. In which you can choose to face the computer or an AI.
 
+https://github.com/AdrSanWal/connect4/assets/82061736/b6831031-ad3b-4594-abdc-9feae6795bdf
+
 Instructions:
 =
 
