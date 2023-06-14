@@ -27,6 +27,6 @@ Instructions:
 
     python3 manage.py runserver
 
-6º Start playing in:
+6º Start playing:
 
     http://localhost:8000/
