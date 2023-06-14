@@ -8,3 +8,23 @@ Instructions:
 1º Clone the repository to a folder:
 
     git clone https://github.com/AdrSanWal/connect4.git
+
+2º Enter in the repo folder:
+
+    cd connect4
+
+3º Create database:
+
+    python3 manage.py migrate
+
+4º If you want to train the ai with training data (otherwise skip this step):
+
+    python3 manage.py loaddata core_gameplay.json core_gamewinner.json
+
+5º Run the server:
+
+    python3 manage.py runserver
+
+6º Start playing in:
+
+    http://localhost:8000/
