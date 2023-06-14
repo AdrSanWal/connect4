@@ -1,4 +1,4 @@
-from django.db import models, connection
+from django.db import models
 
 
 class GameWinner(models.Model):
@@ -16,7 +16,10 @@ class GameWinner(models.Model):
                 result.append(sum(subgroup) / size)
                 subgroup = [element]
                 counter = 1
-        result.append(sum(subgroup) / counter)
+        try:
+            result.append(sum(subgroup) / counter)
+        except ZeroDivisionError:  # In the first game, counter will be 0
+            pass
         return result
 
     def count_winners_statistics(self):
